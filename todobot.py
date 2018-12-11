@@ -1,4 +1,4 @@
-import json 
+import json
 import requests
 import time
 import urllib
@@ -69,7 +69,7 @@ def handle_updates(updates):
         elif text in items:
             db.delete_item(text)
             items = db.get_items()
-            if items: 
+            if items:
             	keyboard = build_keyboard(items)
             	send_message("Select an item to delete", chat, keyboard)
             else:
@@ -79,13 +79,14 @@ def handle_updates(updates):
             db.add_item(text)
             items = db.get_items()
             message = "\n".join(items)
-            send_message(message, chat)   
- 
+            send_message(message, chat)
+
 def main():
     db.setup()
     last_update_id = None
     while True:
         print(TOKEN)
+        print(macanudo1)
         print("getting updates")
         updates = get_updates(last_update_id)
         print("aqui es donde me quedo")
