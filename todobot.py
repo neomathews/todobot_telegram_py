@@ -62,13 +62,17 @@ def handle_updates(updates):
     for update in updates["result"]:
         text = update["message"]["text"]
         chat = update["message"]["chat"]["id"]
-        items = db.get_items()
-        if text == "/delete_item":
+        items = db.get_items(chat)
+        if text == "/delete":
             keyboard = build_keyboard(items)
             send_message("Select an item to delete", chat, keyboard)
+        elif text == "/start":
+            send_message("Welcome to your personal To Do list. Send any text to me and I'll store it as an item. Send /delete to remove items", chat)
+        elif text.startswith("/"):
+            continue
         elif text in items:
-            db.delete_item(text)
-            items = db.get_items()
+            db.delete_item(text, chat)
+            items = db.get_items(chat)
             if items:
             	keyboard = build_keyboard(items)
             	send_message("Select an item to delete", chat, keyboard)
@@ -76,8 +80,8 @@ def handle_updates(updates):
                 keyboard = hide_keyboard(items)
                 send_message("LISTA VACIA", chat, keyboard)
         else:
-            db.add_item(text)
-            items = db.get_items()
+            db.add_item(text, chat)
+            items = db.get_items(chat)
             message = "\n".join(items)
             send_message(message, chat)
 
