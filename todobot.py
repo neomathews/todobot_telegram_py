@@ -63,7 +63,7 @@ def handle_updates(updates):
         text = update["message"]["text"]
         chat = update["message"]["chat"]["id"]
         items = db.get_items()
-        if text == "/start":
+        if text == "/delete_item":
             keyboard = build_keyboard(items)
             send_message("Select an item to delete", chat, keyboard)
         elif text in items:
@@ -85,13 +85,8 @@ def main():
     db.setup()
     last_update_id = None
     while True:
-        print(TOKEN)
-        print(macanudo1)
-        print("getting updates")
         updates = get_updates(last_update_id)
-        print("aqui es donde me quedo")
         if len(updates["result"]) > 0:
-            print("por aqui no paso")
             last_update_id = get_last_update_id(updates) + 1
             handle_updates(updates)
         time.sleep(5.5)
